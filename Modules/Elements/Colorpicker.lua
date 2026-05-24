@@ -106,3 +106,22 @@ function ColorPicker.new(parent, text, default, callback)
                 updateSlider(bSlider, "B", input)
             end
         end)
+        
+        game:GetService("UserInputService").InputChanged:Connect(function(input)
+            if dragging and input.UserInputType == Enum.UserInputType.MouseMovement and currentSlider then
+                updateSlider(currentSlider.slider, currentSlider.axis, input)
+            end
+        end)
+        
+        game:GetService("UserInputService").InputEnded:Connect(function(input)
+            if input.UserInputType == Enum.UserInputType.MouseButton1 then
+                dragging = false
+                currentSlider = nil
+            end
+        end)
+    end)
+    
+    return frame
+end
+
+return ColorPicker
